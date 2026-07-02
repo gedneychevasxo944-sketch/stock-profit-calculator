@@ -90,7 +90,7 @@ test("calculates portfolio totals across stocks", () => {
 
 test("formats snapshot timestamp with seconds", () => {
   assert.equal(
-    formatTimestamp(new Date("2026-07-02T21:18:34+08:00")),
+    formatTimestamp(new Date(2026, 6, 2, 21, 18, 34)),
     "2026-07-02 21:18:34",
   );
 });
@@ -104,7 +104,7 @@ test("creates confirmed snapshot with stock copy and summary", () => {
     accounts: [{ costPrice: 10, shares: 50000 }],
     snapshots: [],
   };
-  const snapshot = createSnapshot(stock, new Date("2026-07-02T21:18:34+08:00"));
+  const snapshot = createSnapshot(stock, new Date(2026, 6, 2, 21, 18, 34));
 
   assert.equal(snapshot.savedAt, "2026-07-02 21:18:34");
   assert.equal(snapshot.stock.name, "A 股票");
