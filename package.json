@@ -1,0 +1,10 @@
+{
+  "name": "stock-profit-calculator",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test test/calculations.test.js",
+    "check": "node --check src/calculations.js && node --check src/storage.js && node --check src/app.js"
+  }
+}
