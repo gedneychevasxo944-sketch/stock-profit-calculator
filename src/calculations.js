@@ -87,7 +87,15 @@ export function formatCurrency(value) {
   const number = toNumber(value);
   const absolute = Math.abs(number);
   const fractionDigits = absolute >= 1000 ? 0 : 2;
-  const prefix = number < 0 ? "-" : absolute >= 1000 ? "+" : "";
+
+  return `${number < 0 ? "-" : ""}¥${formatNumber(absolute, fractionDigits)}`;
+}
+
+export function formatSignedCurrency(value) {
+  const number = toNumber(value);
+  const absolute = Math.abs(number);
+  const fractionDigits = absolute >= 1000 ? 0 : 2;
+  const prefix = number < 0 ? "-" : "+";
 
   return `${prefix}¥${formatNumber(absolute, fractionDigits)}`;
 }

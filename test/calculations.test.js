@@ -6,6 +6,7 @@ import {
   createSnapshot,
   formatCurrency,
   formatNumber,
+  formatSignedCurrency,
   formatTimestamp,
   getAccountLabel,
 } from "../src/calculations.js";
@@ -113,9 +114,10 @@ test("creates confirmed snapshot with stock copy and summary", () => {
 });
 
 test("formats values for display", () => {
-  assert.equal(formatCurrency(140000), "+¥140,000");
-  assert.equal(formatCurrency(-4180), "-¥4,180");
+  assert.equal(formatCurrency(140000), "¥140,000");
   assert.equal(formatCurrency(10.333333333), "¥10.33");
+  assert.equal(formatSignedCurrency(140000), "+¥140,000");
+  assert.equal(formatSignedCurrency(-4180), "-¥4,180");
   assert.equal(formatNumber(60000), "60,000");
 });
 

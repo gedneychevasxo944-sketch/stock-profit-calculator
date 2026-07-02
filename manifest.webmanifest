@@ -1,0 +1,18 @@
+{
+  "name": "股票盈利计算器",
+  "short_name": "盈利账本",
+  "description": "本机保存的股票盈利计算器，支持按股票查看持仓、盈亏和确认快照。",
+  "start_url": ".",
+  "scope": ".",
+  "display": "standalone",
+  "background_color": "#edf2f4",
+  "theme_color": "#0f172a",
+  "icons": [
+    {
+      "src": "icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
