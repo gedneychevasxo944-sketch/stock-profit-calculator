@@ -39,10 +39,17 @@ jobs:
       - name: Configure Pages
         uses: actions/configure-pages@v5
 
+      - name: Prepare Pages artifact
+        run: |
+          mkdir -p _site/src _site/icons
+          cp index.html manifest.webmanifest service-worker.js .nojekyll _site/
+          cp src/*.js src/*.css _site/src/
+          cp icons/* _site/icons/
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: .
+          path: _site
 
       - name: Deploy to GitHub Pages
         id: deployment

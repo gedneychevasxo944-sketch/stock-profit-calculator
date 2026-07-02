@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "node --test test/calculations.test.js",
+    "test": "node --test test/*.test.js",
     "check": "node --check src/calculations.js && node --check src/storage.js && node --check src/app.js"
   }
 }

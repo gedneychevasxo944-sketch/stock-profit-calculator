@@ -1,54 +1,10 @@
 const STORAGE_KEY = "stock-profit-calculator:v1";
+const LEGACY_SEEDED_STOCK_IDS = new Set(["stock-sample-a", "stock-sample-b"]);
 
 export function createDefaultData() {
   return {
     activeStockId: null,
-    stocks: [
-      {
-        id: "stock-sample-a",
-        name: "A 股票",
-        currentPrice: 11,
-        realizedProfit: 100000,
-        accounts: [
-          { costPrice: 10, shares: 50000 },
-          { costPrice: 12, shares: 10000 },
-        ],
-        snapshots: [
-          {
-            id: "snapshot-sample-a-1",
-            savedAt: "2026-07-02 21:18:34",
-            stock: {
-              id: "stock-sample-a",
-              name: "A 股票",
-              currentPrice: 11,
-              realizedProfit: 100000,
-              accounts: [
-                { costPrice: 10, shares: 50000 },
-                { costPrice: 12, shares: 10000 },
-              ],
-              snapshots: [],
-            },
-            summary: {
-              totalShares: 60000,
-              positionCost: 620000,
-              marketValue: 660000,
-              weightedCost: 10.333333333333334,
-              floatingProfit: 40000,
-              realizedProfit: 100000,
-              totalProfit: 140000,
-            },
-          },
-        ],
-      },
-      {
-        id: "stock-sample-b",
-        name: "B 股票",
-        currentPrice: 23.6,
-        realizedProfit: 0,
-        accounts: [{ costPrice: 24.1, shares: 8000 }],
-        snapshots: [],
-      },
-    ],
+    stocks: [],
   };
 }
 
@@ -74,9 +30,16 @@ function normalizeData(data) {
     return createDefaultData();
   }
 
+  const stocks = data.stocks
+    .filter((stock) => !LEGACY_SEEDED_STOCK_IDS.has(String(stock?.id || "")))
+    .map(normalizeStock);
+  const activeStockId = stocks.some((stock) => stock.id === data.activeStockId)
+    ? data.activeStockId
+    : null;
+
   return {
-    activeStockId: data.activeStockId ?? null,
-    stocks: data.stocks.map(normalizeStock),
+    activeStockId,
+    stocks,
   };
 }
 
