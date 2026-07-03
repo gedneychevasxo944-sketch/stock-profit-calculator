@@ -413,7 +413,8 @@ function registerServiceWorker() {
       location.hostname === "127.0.0.1");
 
   if (canRegister) {
-    navigator.serviceWorker.register("service-worker.js");
+    const SW_VERSION = "2026-07-03";
+    navigator.serviceWorker.register(`service-worker.js?v=${SW_VERSION}`);
   }
 }
 

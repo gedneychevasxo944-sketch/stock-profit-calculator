@@ -1,5 +1,25 @@
 const STORAGE_KEY = "stock-profit-calculator:v1";
-const LEGACY_SEEDED_STOCK_IDS = new Set(["stock-sample-a", "stock-sample-b"]);
+const LEGACY_SEEDED_STOCKS = [
+  {
+    id: "stock-sample-a",
+    name: "A 股票",
+    currentPrice: 11,
+    realizedProfit: 100000,
+    accounts: [
+      { costPrice: 10, shares: 50000 },
+      { costPrice: 12, shares: 10000 },
+    ],
+    snapshotIds: ["snapshot-sample-a-1"],
+  },
+  {
+    id: "stock-sample-b",
+    name: "B 股票",
+    currentPrice: 23.6,
+    realizedProfit: 0,
+    accounts: [{ costPrice: 24.1, shares: 8000 }],
+    snapshotIds: [],
+  },
+];
 
 export function createDefaultData() {
   return {
@@ -31,7 +51,7 @@ function normalizeData(data) {
   }
 
   const stocks = data.stocks
-    .filter((stock) => !LEGACY_SEEDED_STOCK_IDS.has(String(stock?.id || "")))
+    .filter((stock) => !isLegacySeededStock(stock))
     .map(normalizeStock);
   const activeStockId = stocks.some((stock) => stock.id === data.activeStockId)
     ? data.activeStockId
@@ -41,6 +61,48 @@ function normalizeData(data) {
     activeStockId,
     stocks,
   };
+}
+
+function isLegacySeededStock(stock) {
+  if (!stock || typeof stock !== "object") {
+    return false;
+  }
+
+  const seed = LEGACY_SEEDED_STOCKS.find((item) => item.id === String(stock.id || ""));
+
+  if (!seed) {
+    return false;
+  }
+
+  return (
+    String(stock.name || "") === seed.name &&
+    Number(stock.currentPrice) === seed.currentPrice &&
+    Number(stock.realizedProfit) === seed.realizedProfit &&
+    accountsMatch(stock.accounts, seed.accounts) &&
+    snapshotsMatch(stock.snapshots, seed.snapshotIds)
+  );
+}
+
+function accountsMatch(accounts, seedAccounts) {
+  if (!Array.isArray(accounts) || accounts.length !== seedAccounts.length) {
+    return false;
+  }
+
+  return accounts.every((account, index) => {
+    const seed = seedAccounts[index];
+    return (
+      Number(account?.costPrice) === seed.costPrice &&
+      Number(account?.shares) === seed.shares
+    );
+  });
+}
+
+function snapshotsMatch(snapshots, seedSnapshotIds) {
+  if (!Array.isArray(snapshots) || snapshots.length !== seedSnapshotIds.length) {
+    return false;
+  }
+
+  return snapshots.every((snapshot, index) => snapshot?.id === seedSnapshotIds[index]);
 }
 
 function normalizeStock(stock) {

@@ -1,4 +1,4 @@
-const CACHE_NAME = "stock-profit-calculator-v2";
+const CACHE_NAME = "stock-profit-calculator-v3";
 const ASSETS = [
   "./",
   "index.html",
